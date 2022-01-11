@@ -6,9 +6,8 @@
   "module": "lib/schedule.esm.js",
   "scripts": {
     "test": "node ./lib/schedule.cjs.js",
-    "build:src": "rollup --config",
-    "build:bat": "node ./utils/creat-bat.js",
-    "build": "pnpm build:bat && pnpm build:src"
+    "build": "rollup --config",
+    "create": "node ./utils/creat-bat.js"
   },
   "author": "",
   "license": "MIT",
