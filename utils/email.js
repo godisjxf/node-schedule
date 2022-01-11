@@ -1,6 +1,6 @@
 import { pass, user } from "../email.json";
 const nodemailer = require("nodemailer");
-export default function (msg) {
+export default function (msg,cb) {
   let transporter = nodemailer.createTransport({
     // host: 'smtp.ethereal.email',
     service: "qq", // 使用了内置传输发送邮件 查看支持列表：https://nodemailer.com/smtp/well-known/
@@ -29,5 +29,6 @@ export default function (msg) {
     }
     // console.log('Message sent: %s', info.messageId);
     console.log(info);
+    cb()
   });
 }

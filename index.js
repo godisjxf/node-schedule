@@ -1,6 +1,5 @@
 import http from "./utils/httpGet";
 import sendEmail from "./utils/email";
-const nodemailer = require("nodemailer");
 // const a = require("./ip.json");
 const fs = require("fs");
 
@@ -13,16 +12,16 @@ function recordIp(newIp, oldIp) {
       "color: #bf2c9f; background: pink; font-size: 13px;",
       newIp
     );
-    fs.writeFileSync("./ip.json", JSON.stringify({ ip: newIp || "127.0.0.1" }));
+    sendEmail(newIp,()=>{ fs.writeFileSync("./ip.json", JSON.stringify({ ip: newIp || "127.0.0.1" }));});
   }
 }
 try{
-  let { ip } = JSON.parse(fs.readFileSync("./ip.json", "utf-8"));
+  let { ip:oldIp } = JSON.parse(fs.readFileSync("./ip.json", "utf-8"));
   // import a from "./ip.json";
   console.log(
-    "%c [ ip ]: ",
+    "%c [ oldIp ]: ",
     "color: #bf2c9f; background: pink; font-size: 13px;",
-    ip
+    oldIp
   );
   
   let newIp;
@@ -30,8 +29,7 @@ try{
     .then((res) => {
       console.log(res);
       newIp = res.query;
-      recordIp(newIp, ip);
-      sendEmail(newIp);
+      recordIp(newIp, oldIp);
     })
     .catch((e) => {
       console.log(e);
