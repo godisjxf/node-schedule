@@ -2,3 +2,4 @@ node_modules
 lib
 run-bat.bat
 email.json
+ip.json
