@@ -21,7 +21,6 @@ export default function (msg, cb) {
     // text: 'Hello world?', // plain text body
     html: `<h1>Ip:${msg}</h1>`, // html body
   };
-
   // send mail with defined transport object
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
