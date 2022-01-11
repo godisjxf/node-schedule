@@ -8,7 +8,7 @@
     "test": "node ./lib/schedule.cjs.js",
     "build:src": "rollup --config",
     "build:bat": "node ./utils/creat-bat.js",
-    "build": "pnpm build:src && pnpm build:bat"
+    "build": "pnpm build:bat && pnpm build:src"
   },
   "author": "",
   "license": "MIT",
