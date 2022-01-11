@@ -1,0 +1,19 @@
+{
+  "name": "schedule",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/schedule.cjs.js",
+  "module": "lib/schedule.esm.js",
+  "scripts": {
+    "test": "node ./lib/schedule.cjs.js",
+    "build:src": "rollup --config",
+    "build:bat": "node ./utils/creat-bat.js",
+    "build":"pnpm build:src && pnpm build:bat"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@rollup/plugin-json": "^4.1.0",
+    "nodemailer": "^6.7.2"
+  }
+}
