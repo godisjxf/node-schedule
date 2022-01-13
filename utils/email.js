@@ -1,9 +1,10 @@
 import { pass, user } from "../email.json";
+const log4js = require("log4js");
 const nodemailer = require("nodemailer");
 export default function (msg, cb) {
   let transporter = nodemailer.createTransport({
     // host: 'smtp.ethereal.email',
-    service: "qq", // 使用了内置传输发送邮件 查看支持列表：https://nodemailer.com/smtp/well-known/
+    service: "QQ", // 使用了内置传输发送邮件 查看支持列表：https://nodemailer.com/smtp/well-known/
     port: 465, // SMTP 端口
     secureConnection: true, // 使用了 SSL
     auth: {
@@ -24,7 +25,9 @@ export default function (msg, cb) {
   // send mail with defined transport object
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      return console.log(error);
+      log4js.getLogger("ip").warn(`some bad:${JSON.stringify(error)}`);
+      console.log(error);
+      return
     }
     // console.log('Message sent: %s', info.messageId);
     console.log(info);

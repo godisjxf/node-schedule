@@ -40,6 +40,7 @@ function recordIp(newIp, oldIp) {
       logger.info(`now ip->${newIp}`);
     });
   }
+  logger.info('ip no change')
 }
 try {
   let { ip: oldIp } = JSON.parse(fs.readFileSync("./ip.json", "utf-8"));
@@ -58,8 +59,8 @@ try {
       recordIp(newIp, oldIp);
     })
     .catch((e) => {
-      console.log(e);
+      logger.warn(`some bad:${e}`);
     });
 } catch (e) {
-  console.log(e);
+  logger.warn(`some bad:${e}`);
 }
