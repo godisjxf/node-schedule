@@ -1,5 +1,6 @@
 import http from "./utils/httpGet";
 import sendEmail from "./utils/email";
+import  DDNS from './utils/resetDns'
 // const a = require("./ip.json");
 var log4js = require("log4js");
 const fs = require("fs");
@@ -38,6 +39,15 @@ function recordIp(newIp, oldIp) {
         JSON.stringify({ ip: newIp || "127.0.0.1" })
       );
       logger.info(`now ip->${newIp}`);
+    });
+    let options = JSON.parse(fs.readFileSync("./ddns.json", "utf-8"));
+    DDNS(options,newIp).then((res) => {
+      console.log(res.data);
+      logger.info(`change cloudFare`);
+    })
+    .catch((e) => {
+      console.log(e)//e.response.data ||
+      logger.warn(`some bad:${e}`);
     });
   }
   logger.info('ip no change')

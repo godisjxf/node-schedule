@@ -8,9 +8,16 @@ let email = {
   pass: "your pass",
 };
 let ip = { ip: "" };
+let ddns = {
+  zones:"",
+  dns_records:"",
+  email:"",
+  global:""
+}
 fs.writeFileSync(path.resolve(absolutePath, "./run-bat.bat"), file);
 fs.writeFileSync(
   path.resolve(absolutePath, "./email.json"),
   JSON.stringify(email)
 );
 fs.writeFileSync(path.resolve(absolutePath, "./ip.json"), JSON.stringify(ip));
+fs.writeFileSync(path.resolve(absolutePath, "./ddns.json"), JSON.stringify(ddns));
