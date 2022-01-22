@@ -14,7 +14,6 @@
   "dependencies": {
     "@rollup/plugin-json": "^4.1.0",
     "log4js": "^6.3.0",
-    "nodemailer": "^6.7.2",
-    "rollup": "^2.63.0"
+    "nodemailer": "^6.7.2"
   }
 }

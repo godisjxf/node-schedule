@@ -13,7 +13,7 @@ log4js.configure({
       type: "dateFile",
       filename: "./log/datafileout.log",
       pattern: ".yyyy-MM-dd",
-      daysToKeep: 7,
+      daysToKeep: 15,
     },
     consoleout: { type: "console" },
   },
