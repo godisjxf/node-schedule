@@ -28,7 +28,7 @@ const https = require('https')
       const postData = JSON.stringify({
         type:'A',
         name:'lj',
-        content:`${url}7777`,//`${url}:${port}`,
+        content:`${url}`,//`${url}:${port}`,
         ttl:1,
         proxied:false
       });

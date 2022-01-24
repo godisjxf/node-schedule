@@ -47,7 +47,7 @@ function recordIp(newIp, oldIp) {
     })
     .catch((e) => {
       console.log(e)//e.response.data ||
-      logger.warn(`some bad:${e}`);
+      logger.warn(`some bad:${JSON.stringify(e)}`);
     });
   }
   logger.info('ip no change')
