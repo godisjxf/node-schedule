@@ -1,8 +1,20 @@
 //
 const http = require("http");
-export default function (url) {
+export function MyAbortController() {
+  return {
+    agentInstance: null,
+    register(agent) {
+      this.abortInstance = agent;
+    },
+    abort() {
+      console.log(this.abortInstance);
+      this.abortInstance?.destroy();
+    },
+  };
+}
+export default function (url, timeout, AbortController) {
   return new Promise((resolve, reject) => {
-    http
+    const agent = http
       .get(url, (res) => {
         const { statusCode } = res;
         const contentType = res.headers["content-type"];
@@ -38,9 +50,13 @@ export default function (url) {
           }
         });
       })
+      .setTimeout(timeout)
+      .on("timeout", (e) => {
+        reject(`timeout:${timeout}ms`);
+      })
       .on("error", (e) => {
-        console.error(`Got error: ${e.message}`);
         reject(`Got error: ${e.message}`);
       });
+    AbortController?.register(agent);
   });
 }
