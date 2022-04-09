@@ -26,11 +26,8 @@ export default function (msg, cb) {
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       log4js.getLogger("ip").warn(`some bad:${JSON.stringify(error)}`);
-      console.log(error);
-      return
+      return;
     }
-    // console.log('Message sent: %s', info.messageId);
-    console.log(info);
     transporter.close();
     cb();
   });
