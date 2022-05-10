@@ -1,7 +1,8 @@
-import { default as http } from "./utils/httpGet.js";
+// import { default as http } from "./utils/httpGet.js";
 import sendEmail from "./utils/email.js";
 import DDNS from "./utils/resetDns.js";
 import axios from "axios";
+import {ToadScheduler, SimpleIntervalJob, Task } from 'toad-scheduler'
 // const a = require("./ip.json");
 var log4js = require("log4js");
 const fs = require("fs");
@@ -46,32 +47,40 @@ function recordIp(newIp, oldIp) {
   }
   logger.info("ip no change");
 }
-try {
-  let { ip: oldIp } = JSON.parse(fs.readFileSync("./ip.json", "utf-8"));
-  // import a from "./ip.json";
-
-  axios
-    .get("http://ip-api.com/json", { timeout: 5000 })
-    .then((res) => {
-      if (res.status >= 200 && res.status < 300) {
-        const newIp = res.data.query;
-        recordIp(newIp, oldIp);
-      } else {
-        throw new Error(`responseStatus:${res.status}`);
-      }
-    })
-    .catch((e) => {
-      logger.warn(`some bad:${e}`);
-    });
-
-  // http("http://ip-api.com/json",2000)
-  //   .then((res) => {
-  //     const newIp = res.query;
-  //     recordIp(newIp, oldIp);
-  //   })
-  //   .catch((e) => {
-  //     logger.warn(`some bad:${e}`);
-  //   });
-} catch (e) {
-  logger.warn(`some bad:${e}`);
+function runDaily(){
+  try {
+    let { ip: oldIp } = JSON.parse(fs.readFileSync("./ip.json", "utf-8"));
+    // import a from "./ip.json";
+  
+    axios
+      .get("http://ip-api.com/json", { timeout: 5000 })
+      .then((res) => {
+        if (res.status >= 200 && res.status < 300) {
+          const newIp = res.data.query;
+          recordIp(newIp, oldIp);
+        } else {
+          throw new Error(`responseStatus:${res.status}`);
+        }
+      })
+      .catch((e) => {
+        logger.warn(`some bad:${e}`);
+      });
+  
+    // http("http://ip-api.com/json",2000)
+    //   .then((res) => {
+    //     const newIp = res.query;
+    //     recordIp(newIp, oldIp);
+    //   })
+    //   .catch((e) => {
+    //     logger.warn(`some bad:${e}`);
+    //   });
+  } catch (e) {
+    logger.warn(`some bad:${e}`);
+  }
 }
+const scheduler = new ToadScheduler()
+
+const task = new Task('simple task', runDaily)
+const job = new SimpleIntervalJob({ hours: 1,runImmediately:true}, task)
+scheduler.addSimpleIntervalJob(job)
+
