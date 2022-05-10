@@ -29,15 +29,15 @@ let logger = log4js.getLogger("ip");
 function recordIp(newIp, oldIp) {
   if (newIp !== oldIp) {
     sendEmail(newIp, () => {
-      fs.writeFileSync(
-        "./ip.json",
-        JSON.stringify({ ip: newIp || "127.0.0.1" })
-      );
       logger.info(`now ip->${newIp}`);
     });
     let options = JSON.parse(fs.readFileSync("./ddns.json", "utf-8"));
     DDNS(options, newIp)
       .then((res) => {
+        fs.writeFileSync(
+          "./ip.json",
+          JSON.stringify({ ip: newIp || "127.0.0.1" })
+        );
         logger.info(`change cloudFare`);
       })
       .catch((e) => {
@@ -51,7 +51,7 @@ try {
   // import a from "./ip.json";
 
   axios
-    .get("http://ip-api.com/json", { timeout: 4 })
+    .get("http://ip-api.com/json", { timeout: 5000 })
     .then((res) => {
       if (res.status >= 200 && res.status < 300) {
         const newIp = res.data.query;
