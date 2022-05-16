@@ -29,6 +29,6 @@ export default function (msg, cb) {
       return;
     }
     transporter.close();
-    cb();
+    cb&&cb();
   });
 }

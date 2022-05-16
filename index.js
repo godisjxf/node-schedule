@@ -26,13 +26,11 @@ log4js.configure({
   },
 });
 let logger = log4js.getLogger("ip");
+let options = JSON.parse(fs.readFileSync("./ddns.json", "utf-8"));
 
 function recordIp(newIp, oldIp) {
   if (newIp !== oldIp) {
-    sendEmail(newIp, () => {
-      logger.info(`now ip->${newIp}`);
-    });
-    let options = JSON.parse(fs.readFileSync("./ddns.json", "utf-8"));
+    logger.info(`now ip->${newIp}`);
     DDNS(options, newIp)
       .then((res) => {
         fs.writeFileSync(
@@ -42,7 +40,8 @@ function recordIp(newIp, oldIp) {
         logger.info(`change cloudFare`);
       })
       .catch((e) => {
-        logger.warn(`some bad:${JSON.stringify(e)}`);
+        logger.warn(`change cloudFare Failed:${JSON.stringify(e)}`);
+        sendEmail(newIp);
       });
   }
   logger.info("ip no change");
@@ -81,6 +80,6 @@ function runDaily(){
 const scheduler = new ToadScheduler()
 
 const task = new Task('simple task', runDaily)
-const job = new SimpleIntervalJob({ hours: 1,runImmediately:true}, task)
+const job = new SimpleIntervalJob({ minutes: 15,runImmediately:true}, task)
 scheduler.addSimpleIntervalJob(job)
 
