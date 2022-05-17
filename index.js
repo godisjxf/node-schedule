@@ -15,7 +15,7 @@ log4js.configure({
       type: "dateFile",
       filename: "./log/dataFileOut.log",
       pattern: ".yyyy-MM-dd",
-      daysToKeep: 15,
+      daysToKeep: 7,
     },
     consoleOut: { type: "console" },
   },
@@ -80,6 +80,6 @@ function runDaily(){
 const scheduler = new ToadScheduler()
 
 const task = new Task('simple task', runDaily)
-const job = new SimpleIntervalJob({ minutes: 15,runImmediately:true}, task)
+const job = new SimpleIntervalJob({ minutes: 15}, task)
 scheduler.addSimpleIntervalJob(job)
 
